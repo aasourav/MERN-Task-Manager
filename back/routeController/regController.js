@@ -2,11 +2,11 @@ const UserModel  = require('../model/User')
 const bcrypt = require('bcrypt')
 const dotenv = require('dotenv')
 
+
 dotenv.config()
 
 const regController = async(req,res)=>{
     try{
-
         const hash = await bcrypt.hash(req.body.password,parseInt(process.env.SALT))
         const User = new UserModel({
             username:req.body.username,
@@ -19,6 +19,7 @@ const regController = async(req,res)=>{
     }
     catch(er){
         console.log("Problem In regestration controller...: ",er)
+        res.send("something is error in catch")
     }
 }
 

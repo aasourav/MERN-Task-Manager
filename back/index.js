@@ -3,6 +3,10 @@ const mongoose = require('mongoose')
 const cookieParser = require('cookie-parser')
 const cors = require('cors')
 const regRouter = require('./routes/regRouter')
+const loginRotuer = require('./routes/loginRouter')
+const logutRotuer = require('./routes/logoutRouter')
+const verification = require('./util/verification')
+const tasksRouter = require('./routes/tasksRouter')
 
 
 
@@ -16,9 +20,10 @@ mongoose.connect('mongodb://localhost:27017/MERN_Todo').then(()=>{
 }).catch(err=>console.log("Monodb problem"))
 
 
-// app.use('/login',loginRotuer)
+app.use('/login',loginRotuer)
 app.use('/reg',regRouter)
-// app.use('/tasks',verifyToken,tasksRouter)
+app.use('/logout',logutRotuer)
+app.use('/tasks',tasksRouter)
 
 
 
