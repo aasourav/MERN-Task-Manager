@@ -16,9 +16,6 @@ const editTaskController = async(req,res)=>{
             $set:{
                 tasks:[...Tasks]
             }
-        },(err)=>{
-            console.log("Error in edit tasks")
-            res.status(401).send("Delete Not possible")
         })
 
         res.status(200).json({message:"Edit Done"})

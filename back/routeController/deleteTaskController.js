@@ -15,9 +15,6 @@ const deleteTaskController = async(req,res) =>{
             $set:{
                 tasks: [...Tasks]
             }
-        },(err)=>{
-            console.log("error in Deleteing tasks")
-            res.status(401).send("Delete Not Possible")
         })
 
         res.status(200).json({message:"Delete done"})
