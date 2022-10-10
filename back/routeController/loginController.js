@@ -20,7 +20,7 @@ const loginController = async(req,res)=>{
                 username:exist.username,
                 email:exist.email
             },process.env.JWT,{
-                expiresIn:'10s'
+                expiresIn:'30s'
             })
             
             // creating cookies

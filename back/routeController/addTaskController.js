@@ -2,6 +2,7 @@ const UserModel = require("../model/User");
 
 const addTaskController = async(req,res)=>{
     const id = req.ID;
+    console.log(id)
     try{
         const user = await UserModel.findOne({_id:id})
         if(!user){
@@ -9,14 +10,12 @@ const addTaskController = async(req,res)=>{
         }
         const Tasks = [...user.tasks]
         Tasks.push(req.body)
-        await UserModel.updateOne({_id:id},{
+        const success = await UserModel.updateOne({_id:id},{
             $set:{
                 tasks:[...Tasks]
             }
-        },(err)=>{
-            console.log("error in add tasks")
-            res.status(401).send("Add task not possible")
         })
+        console.log(success)
 
         res.status(200).json({message:"Add Successfull"})
     }

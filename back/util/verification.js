@@ -20,8 +20,8 @@ const verification = async(req,res,next)=>{
         next()
     }
     catch(er){
-        res.send("User Not Verified")
         console.log("Verification Unsuccessful...")
+        return res.send("User Not Verified")
     }
 }
 

@@ -18,7 +18,7 @@ const regController = async(req,res)=>{
         res.status(201).send("User Created...")
     }
     catch(er){
-        console.log("Problem In regestration controller...: ",er)
+        console.log("Problem In regestration controller...: ",er.message)
         res.send("something is error in catch")
     }
 }
