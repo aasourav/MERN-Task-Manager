@@ -20,7 +20,7 @@ const verifyUserCotroller = async(req,res)=>{
         res.status(200).send({id:validateToken.id,username:validateToken.username})
     }
     catch(er){
-        console.log("Verification Unsuccessful...")
+        // console.log("Verification Unsuccessful...")
         return res.status(500).send("User Not Verified")
     }
 }

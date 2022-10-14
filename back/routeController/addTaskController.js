@@ -2,7 +2,7 @@ const UserModel = require("../model/User");
 
 const addTaskController = async(req,res)=>{
     const id = req.ID;
-    console.log(id)
+    // console.log(id)
     try{
         const user = await UserModel.findOne({_id:id})
         if(!user){
@@ -16,12 +16,12 @@ const addTaskController = async(req,res)=>{
                 tasks:[...Tasks]
             }
         })
-        console.log(success)
+        // console.log(success)
 
         res.status(200).json({message:"Add Successfull"})
     }
     catch(er){
-        console.log("error in add task")
+        // console.log("error in add task")
         res.status(500).send("add task not possible")
     }
 }

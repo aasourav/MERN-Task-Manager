@@ -13,12 +13,12 @@ const regController = async(req,res)=>{
             email:req.body.email,
             password:hash
         })
-        console.log('hello')
+        // console.log('hello')
         await User.save()
         res.status(201).send("User Created...")
     }
     catch(er){
-        console.log("Problem In regestration controller...: ",er.message)
+        // console.log("Problem In regestration controller...: ",er.message)
         res.status(500).send("something is error in catch")
     }
 }

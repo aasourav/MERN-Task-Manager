@@ -3,7 +3,7 @@ const jwt = require('jsonwebtoken')
 dotenv.config()
 
 const logoutController = (req,res)=>{
-    console.log("Logout Contrller...")
+    // console.log("Logout Contrller...")
     const cookies = req.headers.cookie;
     try{
         if(!cookies){
@@ -22,7 +22,7 @@ const logoutController = (req,res)=>{
     }
     catch(e){
         res.status(500).send("Error in logout..")
-        console.log("something Error in catch in logout")
+        // console.log("something Error in catch in logout")
     }
 }
 

@@ -30,7 +30,8 @@ export default function SectionMerge(){
                 username:Usr.username,
                 id:Usr.id
             })
-            console.log(Usr.data)
+            // console.log(Usr.data)
+
             // setTasks(Usr.data)
             setLogged(true)
         } 
@@ -94,11 +95,11 @@ export default function SectionMerge(){
         try{
             const Data = await dataSend()
             alert("Successfully Register..")
-            console.log(Data)
+            // console.log(Data)
             navigate('/')
         }
         catch(e){
-            console.log(e.message)
+            // console.log(e.message)
             alert("User Not Created. Try Again..")
         }
         
@@ -123,12 +124,12 @@ export default function SectionMerge(){
          try{
             const Data = await tryToLogin()
             alert("Successfully Logged in")
-            console.log(Data)
+            // console.log(Data)
             setLogged(true)
             navigate('/')
         }
         catch(e){
-            console.log(e)
+            // console.log(e)
             alert("Unauthorized!!")
         }
     }
@@ -143,7 +144,7 @@ const logOut = async(e)=>{
         setLogged(false)
     }
     catch(e){
-        console.log("There was a problem logging out: ",e)
+        // console.log("There was a problem logging out: ",e)
     }
 }
 //<<=================================================>>
@@ -214,12 +215,12 @@ const handleAddSubmit = async(e)=>{
             withCredentials:true
         })
 
-        console.log(res.data)
+        // console.log(res.data)
     }
     catch(e){
         // navigate('/login')
         setLogged(false)
-        console.log(e)
+        // console.log(e)
     }
 
     handleModal()
@@ -251,7 +252,7 @@ const GetData = async()=>{
 useEffect(()=>{
     const fn = async()=>{
         const Usr = await GetData()
-        console.log("Getting Data: ",Usr.status)
+        // console.log("Getting Data: ",Usr.status)
         setTasks(Usr.data)
         setETasks(Usr.data)
     }
@@ -264,7 +265,7 @@ useEffect(()=>{
 
 ///<<<<=================Edit Section Start=======================>>>>
 const editChange = (e)=>{
-    console.log('Edit changing ',e.target.id)
+    // console.log('Edit changing ',e.target.id)
     setETasks(prev => (
         prev.map((o,i)=> i===parseInt(e.target.id) ? {...o,[e.target.name]:e.target.value}:o)
     ))
@@ -287,12 +288,12 @@ const handleEditSubmit = async(e)=>{
             withCredentials:true
         })
 
-        console.log("edit task: ",res.status)
+        // console.log("edit task: ",res.status)
     }
     catch(e){
         // navigate('/login')
         setLogged(false)
-        console.log(e)
+        // console.log(e)
     }
 
     setEdit((prev)=>!prev)
@@ -311,7 +312,7 @@ const handleComplete = async(e)=>{
     setETasks([...tasks])
     const index = parseInt(e.target.id)
     const{taskname,taskdes,status,created} = tasks[index];
-    console.log("HELl: ",tasks)
+    // console.log("HELl: ",tasks)
     try{
         const res = await axios.put(`http://localhost:8800/tasks/edit/${e.target.id}`,{
             taskname,
@@ -322,12 +323,12 @@ const handleComplete = async(e)=>{
         {
             withCredentials:true
         })
-        console.log("Complete task: ",res.status)
+        // console.log("Complete task: ",res.status)
     }
     catch(e){
         // navigate('/login')
         setLogged(false)
-        console.log(e)
+        // console.log(e)
     }
 }
 ///<<<<============================================>>>>
@@ -343,12 +344,12 @@ const handleDelete = async(e) =>{
         {
             withCredentials:true
         })
-        console.log("Delete task: ",res.status)
+        // console.log("Delete task: ",res.status)
     }
     catch(e){
         // navigate('/login')
         setLogged(false)
-        console.log(e)
+        // console.log(e)
     }
 }
 ///<<<<============================================>>>>

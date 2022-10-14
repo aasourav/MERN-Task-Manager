@@ -22,7 +22,7 @@ const deleteTaskController = async(req,res) =>{
     }
     catch(er){
         res.status(500).send("Error")
-        console.log("something error in delste tasks")
+        // console.log("something error in delste tasks")
     }
     
 }
