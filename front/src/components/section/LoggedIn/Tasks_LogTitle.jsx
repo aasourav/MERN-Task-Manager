@@ -26,47 +26,36 @@ export default function TasksLogTitle({username}){
     }
 
     const [modal,setModal] = useState(false)
-    
-    
-    const date = new Date(Date.now())
+    const handleModal = ()=>{
+        setModal((prev)=>!prev)
+    }
 
+    
+    
+//<<<<===============Taking Single Data from User=====================>>>>
+
+    const[tasks,setTasks]=useState([])
+    const[tasksEdit,setETasks]=useState([])
+    const date = new Date(Date.now())
     const[data,setData]=useState({
         taskname:'',
         taskdes:'',
         status:true,
         created:String(date.toLocaleDateString())+" "+String(date.toLocaleTimeString())
     })
-
-
-    const handleModal = ()=>{
-        setModal((prev)=>!prev)
-    }
-
-
-//<<<<===============Taking Single Data from User Start=====================>>>>
-
-    const[tasks,setTasks]=useState([])
-    const[tasksEdit,setETasks]=useState([])
-
-    // title: "",
-    // des: "",
-    // time: "",
-    // status: false
+    
     const handleAddChange = (e)=>{
         setData((prev)=>({
             ...prev,
             [e.target.name] : e.target.value
         }))
     }
-//<<<<===============Taking Single Data from User End=====================>>>>
-
-
+//<<<<======================================================================>>>>
 
     
-///<<<<=================Add Task To the Server Start=======================>>>>
+///<<<<=================Add Task To the Server=======================>>>>
     const handleAddSubmit = async(e)=>{
         e.preventDefault();
-        // tasks.push(data)
         const tdata = [data]
         setTasks([...tasks,...tdata])
         setETasks([...tasks,...tdata])
@@ -82,7 +71,6 @@ export default function TasksLogTitle({username}){
             })
 
             console.log(res.data)
-            // alert('Task Added...')
         }
         catch(e){
             navigate('/login')
@@ -96,14 +84,12 @@ export default function TasksLogTitle({username}){
             status:true,
             created:Date.now()
         })
-
-        // console.log(tasks)
     }
-///<<<<=================Add Task To the Server End=======================>>>>
+///<<<<==============================================>>>>
 
 
     
- ///<<<<=================Getting User Tasks Start=======================>>>>
+ ///<<<<=================Getting User Tasks=======================>>>>
 
     const GetData = async()=>{
         try{
@@ -111,13 +97,10 @@ export default function TasksLogTitle({username}){
             withCredentials:true
              })
             return res
-
         }
         catch(e){
             navigate('/login')
         }
-        
-
     }
     useEffect(()=>{
         const fn = async()=>{
@@ -132,7 +115,7 @@ export default function TasksLogTitle({username}){
         fn()
     },[])
 
-///<<<<=================Getting User Tasks End=======================>>>>
+///<<<<================================================>>>>
 
 
 
@@ -146,8 +129,7 @@ export default function TasksLogTitle({username}){
     const handleEditSubmit = async(e)=>{
         e.preventDefault()
         setTasks(tasksEdit)
-        // const index = parseInt(e.target.id)
-        // console.log("hel: ",tasks[index])
+
         const{taskname,taskdes,status,created} = tasksEdit[ID]
         try{
             const res = await axios.put(`http://localhost:8800/tasks/edit/${ID}`,{
@@ -161,7 +143,6 @@ export default function TasksLogTitle({username}){
             })
 
             console.log("edit task: ",res.status)
-            // alert('Task Added...')
         }
         catch(e){
             navigate('/login')
@@ -172,10 +153,10 @@ export default function TasksLogTitle({username}){
     }
 
     
-///<<<<=================Edit Section End=======================>>>>
+///<<<<===================================================>>>>
 
 
-///<<<<===============Task Complete Section Start=================>>>>
+///<<<<===============Mark Task Complete Section=================>>>>
 
     const handleComplete = async(e)=>{
         setTasks(prev => (
@@ -196,17 +177,16 @@ export default function TasksLogTitle({username}){
                 withCredentials:true
             })
             console.log("Complete task: ",res.status)
-            // alert('Task Added...')
         }
         catch(e){
             navigate('/login')
             console.log(e)
         }
     }
-///<<<<===============Task Complete Section End=================>>>>
+///<<<<============================================>>>>
 
 
-
+///<<<<==================Delete Task==========================>>>>
     const handleDelete = async(e) =>{
         const Tdata = tasksEdit.filter((_,i)=> i!==parseInt(e.target.id))
         setTasks([...Tdata])
@@ -217,15 +197,13 @@ export default function TasksLogTitle({username}){
                 withCredentials:true
             })
             console.log("Delete task: ",res.status)
-            // console.log("Deleted: ",res.data)
-            // alert('Task Added...')
         }
         catch(e){
             navigate('/login')
             console.log(e)
         }
     }
-
+///<<<<============================================>>>>
 
 
     return(
