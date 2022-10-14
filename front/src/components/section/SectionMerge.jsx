@@ -30,7 +30,8 @@ export default function SectionMerge(){
                 username:Usr.username,
                 id:Usr.id
             })
-            console.log(Usr)
+            console.log(Usr.data)
+            // setTasks(Usr.data)
             setLogged(true)
         } 
         fn()
@@ -255,7 +256,7 @@ useEffect(()=>{
         setETasks(Usr.data)
     }
     fn()
-},[tasks])
+},[logged])
 
 ///<<<<================================================>>>>
 
