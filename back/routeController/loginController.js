@@ -21,13 +21,13 @@ const loginController = async(req,res)=>{
                 username:exist.username,
                 email:exist.email
             },process.env.JWT,{
-                expiresIn:'30s'
+                expiresIn:'5m'
             })
             
             // creating cookies
             res.cookie(String(exist._id),token,{
                 path:'/',
-                expires:new Date(Date.now()+1000*60),
+                expires:new Date(Date.now()+1000*300),
                 httpOnly:true,
                 smaSite:'lax'
             })
