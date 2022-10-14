@@ -143,10 +143,10 @@ const logOut = async(e)=>{
         await axios.post('http://localhost:8800/logout',{},{
             withCredentials:true
         })
-        navigate('/login')
         setLogged(false)
     }
     catch(e){
+        setLogged(false)
         // console.log("There was a problem logging out: ",e)
     }
 }
