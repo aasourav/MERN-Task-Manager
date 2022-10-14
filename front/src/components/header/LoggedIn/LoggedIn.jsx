@@ -1,9 +1,14 @@
-import { Link } from "react-router-dom";
+// import axios from "axios";
+// import { useNavigate } from "react-router-dom";
 import Button from "../../commonComponent/Button";
 
-export default function LoggedIn({handleClick}){
+// axios.defaults.withCredentials=true;
+
+export function LoggedIn({logOut}){
+    // const navigate = useNavigate()
+    // const[logout,setLogout] = useState(false)
+
     return(
-        <Link to='/logout'>
             <div className="
                 font-medium
                 mt-12
@@ -18,8 +23,7 @@ export default function LoggedIn({handleClick}){
                 hover:bg-sky-700
                 mx-1
             "> 
-                <Button btnName="Logout" handleClick={handleClick}/>
+                <Button btnName="Logout" handleClick={logOut}/>
             </div>
-        </Link>
     )
 }

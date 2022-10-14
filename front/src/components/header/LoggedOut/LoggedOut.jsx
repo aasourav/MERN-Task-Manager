@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 import Button from "../../commonComponent/Button";
-export default function LoggedOut({handleClick}){
+export default function LoggedOut(){
     return(
         <div className='flex mt-12'>
                 <Link to='/login'>
@@ -17,7 +17,7 @@ export default function LoggedOut({handleClick}){
                         hover:bg-sky-700
                         mx-1
                     ">
-                            <Button className='text-sky-800' btnName='Login' handleClick={handleClick}/> 
+                            <Button className='text-sky-800' btnName='Login'/> 
                         </div>
                 </Link>
                 <Link to='/reg'>
@@ -33,7 +33,7 @@ export default function LoggedOut({handleClick}){
                         hover:text-white
                         hover:bg-sky-700
                     ">
-                        <Button btnName='Register' handleClick={handleClick}/>
+                        <Button btnName='Register'/>
                     </div>
                 </Link>
         </div>

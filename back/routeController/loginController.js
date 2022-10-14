@@ -7,10 +7,11 @@ dotenv.config()
 const loginController = async(req,res)=>{
     try{
         const exist = await UserModel.findOne({username:req.body.username})
+        console.log(req.body);
         if(exist){
             const passCheck = await bcrypt.compare(req.body.password,exist.password)
             if(!passCheck){
-                return res.status(401).send("user or pass is wrong") 
+                return res.status(500).send("user or pass is wrong") 
             }
 
 
@@ -38,6 +39,7 @@ const loginController = async(req,res)=>{
         }
     }
     catch(er){
+        res.status(500).send("Error in edit")
         console.log("Problem In login controller...: ",er)
     }
 }

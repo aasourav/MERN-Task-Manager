@@ -1,14 +1,10 @@
-import { useState } from "react";
-import LoggedIn from "./LoggedIn/LoggedIn";
+import { LoggedIn } from "./LoggedIn/LoggedIn";
 import LoggedOut from "./LoggedOut/LoggedOut";
 import WebTitle from "./webTitle/WebTitle";
 
 
-export default function HeaderMerged(){
-    const[loggedIn,setLogged] = useState(false)
-    const handleClick = (e)=>{
+export default function HeaderMerged({loggedIn,logOut}){
 
-    }
     return(
         <div className="flex justify-center">
             <div className="
@@ -19,9 +15,9 @@ export default function HeaderMerged(){
             ">
                 <WebTitle/>
                 {loggedIn?
-                <LoggedIn handleClick={handleClick}/>
+                <LoggedIn logOut={logOut}/>
                 :
-                <LoggedOut handleClick={handleClick}/>
+                <LoggedOut/>
                 
                 }
             </div>

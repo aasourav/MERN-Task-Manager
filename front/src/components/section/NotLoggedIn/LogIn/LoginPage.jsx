@@ -23,7 +23,7 @@ export default function LoginPage({handleLogSubmit,handleLogChange,value}){
                     border
                     border-sky-700
                     rounded-md
-                bg-sky-500
+                    bg-sky-500
                     text-white
                     font-medium
                     px-8 py-1

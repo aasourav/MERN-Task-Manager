@@ -1,24 +1,33 @@
-import { useState } from "react"
-import AddModal from "./AddModal"
-import TaskCard from "./TaskCard"
+import axios from "axios";
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
-export default function TasksLogTitle({name}){
+import AddModal from "./AddModal";
+import TaskCard from "./TaskCard";
+
+
+axios.defaults.withCredentials = true;
+
+export default function TasksLogTitle({username}){
+    const navigate = useNavigate()
+    // if(!usrTask){
+    //     navigate('/')
+    //     console.log(usrTask)
+    // }
     
     const [edit,setEdit] = useState(false)
     const [ID,setId] = useState()
+
+
     const handleToggleEdit = (e)=>{
         setEdit((prev)=>!prev)
         setId(e.target.id)
         
     }
 
-
-
     const [modal,setModal] = useState(false)
     
     
-
-
     const date = new Date(Date.now())
 
     const[data,setData]=useState({
@@ -29,16 +38,13 @@ export default function TasksLogTitle({name}){
     })
 
 
-
-
-
     const handleModal = ()=>{
         setModal((prev)=>!prev)
- 
     }
 
 
-    
+//<<<<===============Taking Single Data from User Start=====================>>>>
+
     const[tasks,setTasks]=useState([])
     const[tasksEdit,setETasks]=useState([])
 
@@ -46,25 +52,43 @@ export default function TasksLogTitle({name}){
     // des: "",
     // time: "",
     // status: false
-
-
-
     const handleAddChange = (e)=>{
         setData((prev)=>({
             ...prev,
             [e.target.name] : e.target.value
         }))
-        
-        //  console.log(data.taskname,data.taskdes)
     }
+//<<<<===============Taking Single Data from User End=====================>>>>
 
-    const handleAddSubmit = (e)=>{
+
+
+    
+///<<<<=================Add Task To the Server Start=======================>>>>
+    const handleAddSubmit = async(e)=>{
         e.preventDefault();
         // tasks.push(data)
         const tdata = [data]
         setTasks([...tasks,...tdata])
         setETasks([...tasks,...tdata])
-        
+        try{
+                const res = await axios.post('http://localhost:8800/tasks/add',{
+                taskname:data.taskname,
+                taskdes:data.taskdes,
+                status:true,
+                created:String(date.toLocaleDateString())+" "+String(date.toLocaleTimeString())
+            },
+            {
+                withCredentials:true
+            })
+
+            console.log(res.data)
+            // alert('Task Added...')
+        }
+        catch(e){
+            navigate('/login')
+            console.log(e)
+        }
+
         handleModal()
         setData({
             taskname:'',
@@ -72,32 +96,136 @@ export default function TasksLogTitle({name}){
             status:true,
             created:Date.now()
         })
+
         // console.log(tasks)
     }
+///<<<<=================Add Task To the Server End=======================>>>>
 
+
+    
+ ///<<<<=================Getting User Tasks Start=======================>>>>
+
+    const GetData = async()=>{
+        try{
+            const res = await axios.get('http://localhost:8800/tasks/',{
+            withCredentials:true
+             })
+            return res
+
+        }
+        catch(e){
+            navigate('/login')
+        }
+        
+
+    }
+    useEffect(()=>{
+        const fn = async()=>{
+            const Usr = await GetData()
+            console.log("Getting Data: ",Usr.status)
+            if(Usr.status!==200){
+                navigate('/login')
+            }
+            setTasks(Usr.data)
+            setETasks(Usr.data)
+        }
+        fn()
+    },[])
+
+///<<<<=================Getting User Tasks End=======================>>>>
+
+
+
+///<<<<=================Edit Section Start=======================>>>>
     const editChange = (e)=>{
         setETasks(prev => (
             prev.map((o,i)=> i===parseInt(ID) ? {...o,[e.target.name]:e.target.value}:o)
         ))
     }
 
-    const handleEditSubmit = (e)=>{
+    const handleEditSubmit = async(e)=>{
         e.preventDefault()
         setTasks(tasksEdit)
+        // const index = parseInt(e.target.id)
+        // console.log("hel: ",tasks[index])
+        const{taskname,taskdes,status,created} = tasksEdit[ID]
+        try{
+            const res = await axios.put(`http://localhost:8800/tasks/edit/${ID}`,{
+                taskname,
+                taskdes,
+                created,
+                status,
+            },
+            {
+                withCredentials:true
+            })
+
+            console.log("edit task: ",res.status)
+            // alert('Task Added...')
+        }
+        catch(e){
+            navigate('/login')
+            console.log(e)
+        }
+
         setEdit((prev)=>!prev)
     }
 
-    const handleComplete = (e)=>{
+    
+///<<<<=================Edit Section End=======================>>>>
+
+
+///<<<<===============Task Complete Section Start=================>>>>
+
+    const handleComplete = async(e)=>{
         setTasks(prev => (
             prev.map((o,i)=> i===parseInt(e.target.id) ? {...o,[e.target.name]:!o.status}:o)
         ))
         setETasks([...tasks])
+        const index = parseInt(e.target.id)
+        const{taskname,taskdes,status,created} = tasks[index];
+        console.log("HELl: ",tasks)
+        try{
+            const res = await axios.put(`http://localhost:8800/tasks/edit/${e.target.id}`,{
+                taskname,
+                taskdes,
+                status:!status,
+                created
+            },
+            {
+                withCredentials:true
+            })
+            console.log("Complete task: ",res.status)
+            // alert('Task Added...')
+        }
+        catch(e){
+            navigate('/login')
+            console.log(e)
+        }
     }
-    const handleDelete = (e) =>{
+///<<<<===============Task Complete Section End=================>>>>
+
+
+
+    const handleDelete = async(e) =>{
         const Tdata = tasksEdit.filter((_,i)=> i!==parseInt(e.target.id))
         setTasks([...Tdata])
         setETasks([...Tdata])
+        try{
+            const res = await axios.delete(`http://localhost:8800/tasks/${e.target.id}`,
+            {
+                withCredentials:true
+            })
+            console.log("Delete task: ",res.status)
+            // console.log("Deleted: ",res.data)
+            // alert('Task Added...')
+        }
+        catch(e){
+            navigate('/login')
+            console.log(e)
+        }
     }
+
 
 
     return(
@@ -110,7 +238,11 @@ export default function TasksLogTitle({name}){
             ">
                 <h3 className="
                     w-1/2
-                ">Hello {name}, Here is your incomplete tasks. Let's complete one by one...</h3>
+                ">Hello 
+                <strong className="text-blue-700 ml-2
+                    text-2xl
+                "
+                >{username},</strong> Here is your incomplete tasks. Let's complete one by one...</h3>
             </div>
             
             <div  className="mt-8 w-1/2 flex flex-col

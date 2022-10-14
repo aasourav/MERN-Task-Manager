@@ -3,7 +3,8 @@ const jwt = require('jsonwebtoken')
 dotenv.config()
 
 const logoutController = (req,res)=>{
-    const cookies = req.header.cookie;
+    console.log("Logout Contrller...")
+    const cookies = req.headers.cookie;
     try{
         if(!cookies){
             return res.status(500).send("empty cookie")
@@ -14,12 +15,13 @@ const logoutController = (req,res)=>{
         if(!verifyToken){
             return res.status(500).send("Token Invalid")
         }
-
+        
         res.clearCookie(`${verifyToken.id}`)
         req.cookies[`${verifyToken.id}`] = ''
         res.status(200).send("successfully logged out")
     }
     catch(e){
+        res.status(500).send("Error in logout..")
         console.log("something Error in catch in logout")
     }
 }

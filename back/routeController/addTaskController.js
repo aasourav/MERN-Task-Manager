@@ -6,10 +6,11 @@ const addTaskController = async(req,res)=>{
     try{
         const user = await UserModel.findOne({_id:id})
         if(!user){
-            return res.status(401).send("User not found at add taks")
+            return res.status(500).send("User not found at add taks")
         }
         const Tasks = [...user.tasks]
         Tasks.push(req.body)
+        // console.log(req.body)
         const success = await UserModel.updateOne({_id:id},{
             $set:{
                 tasks:[...Tasks]
@@ -21,7 +22,7 @@ const addTaskController = async(req,res)=>{
     }
     catch(er){
         console.log("error in add task")
-        res.status(401).send("add task not possible")
+        res.status(500).send("add task not possible")
     }
 }
 

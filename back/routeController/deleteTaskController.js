@@ -6,7 +6,7 @@ const deleteTaskController = async(req,res) =>{
     try{
         const user = await UserModel.findOne({_id:id})
         if(!user){
-            return res.status(401).send("user not found on delete tasks")
+            return res.status(500).send("user not found on delete tasks")
         }
         
         const Tasks  = user.tasks.filter((_,index) => index!=req.params.id);
@@ -21,6 +21,7 @@ const deleteTaskController = async(req,res) =>{
 
     }
     catch(er){
+        res.status(500).send("Error")
         console.log("something error in delste tasks")
     }
     

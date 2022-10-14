@@ -19,7 +19,7 @@ const regController = async(req,res)=>{
     }
     catch(er){
         console.log("Problem In regestration controller...: ",er.message)
-        res.send("something is error in catch")
+        res.status(500).send("something is error in catch")
     }
 }
 

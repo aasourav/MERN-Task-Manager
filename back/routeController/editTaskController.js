@@ -2,13 +2,15 @@ const UserModel = require("../model/User");
 
 
 const editTaskController = async(req,res)=>{
+    
+    console.log("editing: ",req.body)
     const id = req.ID;
     try{
         const user = await UserModel.findOne({_id:id})
         if(!user){
-            return res.status(401).send("user not foudn at edit task")
+            return res.status(500).send("user not foudn at edit task")
         }
-        const Tasks = user.tasks.filter((data)=>data)
+        const Tasks = [...user.tasks]
 
         Tasks[req.params.id] = {...req.body}
 
@@ -22,7 +24,7 @@ const editTaskController = async(req,res)=>{
     }
     catch(er){
         console.log("error in edit tasks");
-        res.status(401).send("Edit not possible")
+        res.status(500).send("Edit not possible")
     }
 }
 

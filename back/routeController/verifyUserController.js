@@ -4,7 +4,7 @@ const { validate } = require('../model/User')
 dotenv.config()
 
 
-const verification = async(req,res,next)=>{
+const verifyUserCotroller = async(req,res)=>{
     const cookies = req.headers.cookie
     if(!cookies){
         return res.status(500).send("Cookies not found in verification")
@@ -16,8 +16,8 @@ const verification = async(req,res,next)=>{
         if(!validateToken){
             return res.status(500).send("Token not valid in verification")
         }
-        req.ID = validateToken.id;
-        next()
+        // req.ID = validateToken.id;
+        res.status(200).send({id:validateToken.id,username:validateToken.username})
     }
     catch(er){
         console.log("Verification Unsuccessful...")
@@ -25,4 +25,4 @@ const verification = async(req,res,next)=>{
     }
 }
 
-module.exports = verification;
+module.exports = verifyUserCotroller;
