@@ -135,7 +135,7 @@ export default function SectionMerge(){
 //<<====================Logout Start===========>>
 const logOut = async(e)=>{
     try{
-        const res = await axios.post('http://localhost:8800/logout',{},{
+        await axios.post('http://localhost:8800/logout',{},{
             withCredentials:true
         })
         navigate('/login')
@@ -148,9 +148,209 @@ const logOut = async(e)=>{
 //<<=================================================>>
 
 
-//=============================Task Management=======================>>>
+
+////==============================================================================
+
+//                               Task Management
+
+//================================================================================
+
+    
+const [edit,setEdit] = useState(false)
+    const [ID,setId] = useState()
+
+    const handleToggleEdit = (e)=>{
+        setEdit((prev)=>!prev)
+        setId(e.target.id)
+        
+    }
+
+    const [modal,setModal] = useState(false)
+    const handleModal = ()=>{
+        setModal((prev)=>!prev)
+    }
 
 
+
+
+
+//<<<<===============Taking Single Data from User=====================>>>>
+
+const[tasks,setTasks]=useState([])
+const[tasksEdit,setETasks]=useState([])
+const date = new Date(Date.now())
+const[data,setData]=useState({
+    taskname:'',
+    taskdes:'',
+    status:true,
+    created:String(date.toLocaleDateString())+" "+String(date.toLocaleTimeString())
+})
+
+const handleAddChange = (e)=>{
+    setData((prev)=>({
+        ...prev,
+        [e.target.name] : e.target.value
+    }))
+}
+//<<<<======================================================================>>>>
+
+
+///<<<<=================Add Task To the Server=======================>>>>
+const handleAddSubmit = async(e)=>{
+    e.preventDefault();
+    const tdata = [data]
+    setTasks([...tasks,...tdata])
+    setETasks([...tasks,...tdata])
+    setData({})
+    try{
+            const res = await axios.post('http://localhost:8800/tasks/add',{
+            taskname:data.taskname,
+            taskdes:data.taskdes,
+            status:true,
+            created:String(date.toLocaleDateString())+" "+String(date.toLocaleTimeString())
+        },
+        {
+            withCredentials:true
+        })
+
+        console.log(res.data)
+    }
+    catch(e){
+        // navigate('/login')
+        setLogged(false)
+        console.log(e)
+    }
+
+    handleModal()
+    setData({
+        taskname:'',
+        taskdes:'',
+        status:true,
+        created:Date.now()
+    })
+}
+///<<<<==============================================>>>>
+
+
+
+///<<<<=================Getting User Tasks=======================>>>>
+
+const GetData = async()=>{
+    try{
+        const res = await axios.get('http://localhost:8800/tasks/',{
+        withCredentials:true
+         })
+        return res
+    }
+    catch(e){
+        // navigate('/login')
+        setLogged(false)
+    }
+}
+useEffect(()=>{
+    const fn = async()=>{
+        const Usr = await GetData()
+        console.log("Getting Data: ",Usr.status)
+        setTasks(Usr.data)
+        setETasks(Usr.data)
+    }
+    fn()
+},[tasks])
+
+///<<<<================================================>>>>
+
+
+
+///<<<<=================Edit Section Start=======================>>>>
+const editChange = (e)=>{
+    console.log('Edit changing ',e.target.id)
+    setETasks(prev => (
+        prev.map((o,i)=> i===parseInt(e.target.id) ? {...o,[e.target.name]:e.target.value}:o)
+    ))
+}
+
+const handleEditSubmit = async(e)=>{
+    e.preventDefault()
+
+    setTasks(tasksEdit)
+
+    const{taskname,taskdes,status,created} = tasksEdit[parseInt(e.target.name)]
+    try{
+        const res = await axios.put(`http://localhost:8800/tasks/edit/${e.target.name}`,{
+            taskname,
+            taskdes,
+            created,
+            status,
+        },
+        {
+            withCredentials:true
+        })
+
+        console.log("edit task: ",res.status)
+    }
+    catch(e){
+        // navigate('/login')
+        setLogged(false)
+        console.log(e)
+    }
+
+    setEdit((prev)=>!prev)
+}
+
+
+///<<<<===================================================>>>>
+
+
+///<<<<===============Mark Task Complete Section=================>>>>
+
+const handleComplete = async(e)=>{
+    setTasks(prev => (
+        prev.map((o,i)=> i===parseInt(e.target.id) ? {...o,[e.target.name]:!o.status}:o)
+    ))
+    setETasks([...tasks])
+    const index = parseInt(e.target.id)
+    const{taskname,taskdes,status,created} = tasks[index];
+    console.log("HELl: ",tasks)
+    try{
+        const res = await axios.put(`http://localhost:8800/tasks/edit/${e.target.id}`,{
+            taskname,
+            taskdes,
+            status:!status,
+            created
+        },
+        {
+            withCredentials:true
+        })
+        console.log("Complete task: ",res.status)
+    }
+    catch(e){
+        // navigate('/login')
+        setLogged(false)
+        console.log(e)
+    }
+}
+///<<<<============================================>>>>
+
+
+///<<<<==================Delete Task==========================>>>>
+const handleDelete = async(e) =>{
+    const Tdata = tasksEdit.filter((_,i)=> i!==parseInt(e.target.id))
+    setTasks([...Tdata])
+    setETasks([...Tdata])
+    try{
+        const res = await axios.delete(`http://localhost:8800/tasks/${e.target.id}`,
+        {
+            withCredentials:true
+        })
+        console.log("Delete task: ",res.status)
+    }
+    catch(e){
+        // navigate('/login')
+        setLogged(false)
+        console.log(e)
+    }
+}
+///<<<<============================================>>>>
 
 
 
@@ -165,7 +365,23 @@ const logOut = async(e)=>{
                             handleLogSubmit={handleLogSubmit}
                             value={login}/> 
                      : 
-                        <TasksLogTitle username={validUser.username}/>}/>
+                        <TasksLogTitle 
+                            username={validUser.username}
+                            modal={modal}
+                            handleModal={handleModal}
+                            handleAddChange={handleAddChange}
+                            handleAddSubmit={handleAddSubmit}
+                            data={data}
+                            tasks={tasks}
+                            handleEditSubmit={handleEditSubmit}
+                            edit={edit}
+                            tasksEdit={tasksEdit}
+                            ID={ID}
+                            editChange={editChange}
+                            handleComplete={handleComplete}
+                            handleDelete={handleDelete}
+                            handleToggleEdit={handleToggleEdit}
+                        />}/>
                     
                 <Route path='/login' element={<LoginPage 
                 handleLogChange={handleLogChange} 

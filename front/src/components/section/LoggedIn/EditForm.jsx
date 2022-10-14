@@ -12,7 +12,7 @@ export default function EditForm({id,handleEditSubmit,editChange,Value}){
     //     }))
     // }
     return(
-        <form onSubmit={handleEditSubmit} className='
+        <form onSubmit={handleEditSubmit} name={id} className='
            mt-3
         '>
                 <label className="text-blue-700">Task Name</label><br />
@@ -53,7 +53,6 @@ export default function EditForm({id,handleEditSubmit,editChange,Value}){
                     text-md
                     hover:bg-sky-700
                 "
-                onSubmit={handleEditSubmit}
                 >
                     Update
                 </button>
