@@ -10,7 +10,7 @@ export default function LoginPage({handleLogSubmit,handleLogChange,value}){
         ">
             <h1 className="
                 text-sky-700
-                text-2xl
+                text-3xl
                 font-medium
             ">Login</h1>
             <form onSubmit={handleLogSubmit}>

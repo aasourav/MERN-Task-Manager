@@ -11,15 +11,15 @@ export default function TasksLogTitle({username,modal,handleModal,handleAddChang
         <div>
             <div className="
                 flex justify-center
-                text-xl italic font-mono
+                text-xl 
                 mt-10
                 mb-3
             ">
                 <h3 className="
-                    w-1/2
+                    w-1/2 font-normal text-3xl
                 ">Hello 
                 <strong className="text-blue-700 ml-2
-                    text-2xl
+                    text-3xl
                 "
                 >{username},</strong> Here is your incomplete tasks. Let's complete one by one...</h3>
             </div>

@@ -1,7 +1,7 @@
 
 export default function AddModal({handleModal,handleAddChange,handleAddSubmit,value=''}){
     return(
-    <div className="border-2 p-3 ml-64 mt-2 rounded-md w-96 flex flex-col border-sky-200">
+    <div className="border-2 p-3 ml-64 mt-2 rounded-md w-96 flex flex-col border-sky-200 bg-white">
         <button className="
             self-end
              border-2 rounded-md px-5 py-1

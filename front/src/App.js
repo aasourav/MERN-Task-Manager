@@ -4,7 +4,7 @@ import SectionMerge from "./components/section/SectionMerge";
 
 function App() {
   return (
-    <div>
+    <div className='bg-orange-50 h-screen bg-mybg bg-cover'>
       <BrowserRouter>
           <SectionMerge/>
       </BrowserRouter>

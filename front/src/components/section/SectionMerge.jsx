@@ -370,7 +370,7 @@ const handleDelete = async(e) =>{
 
 
     return(
-        <>   
+        <div>   
             <HeaderMerged loggedIn={logged} logOut={logOut}/>
               <Routes>
                 <Route path="/" element={
@@ -413,6 +413,6 @@ const handleDelete = async(e) =>{
             :
             null
             } */}
-        </>
+        </div>
     )
 }

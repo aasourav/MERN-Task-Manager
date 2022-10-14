@@ -15,7 +15,8 @@ export function LoggedIn({logOut}){
                 text-lg
                 border-2
                 border-sky-700
-                text-sky-700
+                text-white
+                bg-sky-600
                 rounded-md
                 w-20
                 text-center

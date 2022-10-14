@@ -9,6 +9,7 @@ export default function TaskCard({edit,ID,handleToggleEdit,tasks,handleDelete,ha
                 border-2 border-sky-200
                 px-5 py-3
                 rounded-md
+                bg-white
                 ">
                 <div  >
                     <h3  name={index} className={data.status?"text-2xl text-yellow-700 font-medium mb-2 underline underline-offset-8":"text-2xl text-gray-300 font-medium mb-2 underline underline-offset-8"}>{data.taskname}</h3>

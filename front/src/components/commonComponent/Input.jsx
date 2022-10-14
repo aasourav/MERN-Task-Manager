@@ -3,11 +3,12 @@ export default function Input({title,type,name,placeholder,handleChange,value}){
         <div className="w-1/2">
             <label className="block mt-4">
             <span className="
+                
                 after:content-['*'] 
                 after:ml-0.5 
                 after:text-red-500 block 
-                text-sm 
-                font-medium
+                text-md
+                font-bold
                 text-slate-700">
                 {title}
             </span>
