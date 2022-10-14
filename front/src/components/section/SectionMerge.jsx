@@ -93,7 +93,7 @@ export default function SectionMerge(){
         e.preventDefault()
         // console.log(user)
         try{
-            const Data = await dataSend()
+            await dataSend()
             alert("Successfully Register..")
             // console.log(Data)
             navigate('/')
@@ -125,6 +125,9 @@ export default function SectionMerge(){
             const Data = await tryToLogin()
             alert("Successfully Logged in")
             // console.log(Data)
+            if(!Data){
+                return;
+            }
             setLogged(true)
             navigate('/')
         }
@@ -214,7 +217,9 @@ const handleAddSubmit = async(e)=>{
         {
             withCredentials:true
         })
-
+        if(!res){
+            alert(`Can't add Todo`)
+        }
         // console.log(res.data)
     }
     catch(e){
@@ -287,7 +292,9 @@ const handleEditSubmit = async(e)=>{
         {
             withCredentials:true
         })
-
+        if(!res){
+            alert('Edit Failed')
+        }
         // console.log("edit task: ",res.status)
     }
     catch(e){
@@ -323,6 +330,9 @@ const handleComplete = async(e)=>{
         {
             withCredentials:true
         })
+        if(!res){
+            alert('can not mark as completed.')
+        }
         // console.log("Complete task: ",res.status)
     }
     catch(e){
@@ -345,6 +355,9 @@ const handleDelete = async(e) =>{
             withCredentials:true
         })
         // console.log("Delete task: ",res.status)
+        if(!res){
+            alert('can not perform delete.')
+        }
     }
     catch(e){
         // navigate('/login')
